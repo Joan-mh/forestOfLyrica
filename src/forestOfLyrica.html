@@ -24,6 +24,17 @@ map[6] = "The edge of a river";
 map[7] = "A lonely wooden bench";
 map[8] = "An isolated cottage. Faint music comes from inside";
 
+var images = [];
+images[0] ="keep.png";
+images[1] ="well.png";
+images[2] ="glade.png";
+images[3] ="dragon.png";
+images[4] ="path.png";
+images[5] ="gate.png";
+images[6] ="river.png";
+images[7] ="bench.png";
+images[8] ="cottage.png";
+
 //set the players start location and init player's input
 var mapLocation = 4;
 var playersInput = "";
@@ -34,6 +45,8 @@ var action = "";
 //The output and input elements
 var output = document.querySelector("#output");
 var input = document.querySelector("#input");
+//The image
+var image = document.querySelector("img");
 //the button
 var button = document.querySelector("button");
 button.style.cursor = "pointer";
@@ -58,7 +71,7 @@ function playGame(){
     if(playersInput.indexOf(actionsIKnow[i]) !==-1)
     {
       action = actionsIKnow[i];
-      console.log("players action: " + action);
+      //console.log("players action: " + action);
       break;
     }
   }
@@ -85,7 +98,11 @@ function playGame(){
 }
 
 function render(){
+  //Render the location
   output.innerHTML = map[mapLocation];
+  image.src = "../images/" + images[mapLocation];
+
+  //Display the game message
   output.innerHTML += "<br><em>" + gameMessage + "</em>"
 }
 </script>
