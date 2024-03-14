@@ -35,13 +35,34 @@ images[6] ="river.png";
 images[7] ="bench.png";
 images[8] ="cottage.png";
 
+//Messages for boundaries
+var blockedPathMessages = [];
+blockedPathMessages[0] = "It's too dangerous to move that way.";
+blockedPathMessages[1] = "A mysterious force holds you back.";
+blockedPathMessages[2] = "A tangle of thorns blocks your way.";
+blockedPathMessages[3] = "You can't step over the dragon.";
+blockedPathMessages[4] = "";
+blockedPathMessages[5] = "The gate locks shut.";
+blockedPathMessages[6] = "The river is too deep to cross.";
+blockedPathMessages[7] = "The trees are too thick to pass.";
+blockedPathMessages[8] = "You're too scared to go that way.";
+
+//Create the items and set their location
+var items = ["flute", "stone", "sword"];
+var itemsLocation = [1 ,6, 8];
+//An array to store what the player ir carrying
+var backpack = [];
+
 //set the players start location and init player's input
 var mapLocation = 4;
 var playersInput = "";
 var gameMessage = "";
 //Create array of actions and a variable for the current action
-var actionsIKnow = ["north", "east", "south", "west"];
+var actionsIKnow = ["north", "east", "south", "west", "take", "use", "drop"];
 var action = "";
+//An array of the items game understands and a variable to store current item
+var itemsIKnow = ["flute", "stone", "sword"];
+var item = "";
 //The output and input elements
 var output = document.querySelector("#output");
 var input = document.querySelector("#input");
@@ -71,7 +92,14 @@ function playGame(){
     if(playersInput.indexOf(actionsIKnow[i]) !==-1)
     {
       action = actionsIKnow[i];
-      //console.log("players action: " + action);
+      break;
+    }
+  }
+  //Figure out the item the player wants
+  for (var i = 0; i<itemsIKnow.length; i++){
+    if(playersInput.indexOf(itemsIKnow[i]) !==-1)
+    {
+      item = itemsIKnow[i];
       break;
     }
   }
@@ -79,17 +107,50 @@ function playGame(){
   switch(action)
   {
     case "north":
-      mapLocation -= 3;
+      if(mapLocation >= 3){
+        mapLocation -= 3;
+      }
+      else
+      {
+        gameMessage = blockedPathMessages[mapLocation];
+      }
       //mapLocation = mapLocation -3
       break;
     case "east":
-      mapLocation++;
+      if(mapLocation % 3 != 2){     
+        mapLocation++;
+      }
+      else
+      {
+        gameMessage = blockedPathMessages[mapLocation];
+      }
       break;
     case "south":
-      mapLocation += 3;
+      if(mapLocation < 6){
+        mapLocation += 3;
+      }
+      else
+      {
+        gameMessage = blockedPathMessages[mapLocation];
+      }
       break;
     case "west":
-      mapLocation--;
+      if (mapLocation % 3 != 0){
+        mapLocation--;
+      }
+      else
+      {
+        gameMessage = blockedPathMessages[mapLocation];
+      }
+      break;
+    case "take":
+      takeItem();
+      break;
+    case "use":
+      useItem();
+      break;
+    case "drop":
+      dropItem();
       break;
     default:
       gameMessage = "I don't understand that"
@@ -102,7 +163,17 @@ function render(){
   output.innerHTML = map[mapLocation];
   image.src = "../images/" + images[mapLocation];
 
+  for(var i = 0; i < items.length; i++){
+    if (mapLocation === itemsLocation[i]){
+      output.innerHTML += "<br>You see a <strong>" + items[i] +"</strong> here";
+    }
+  }  
   //Display the game message
   output.innerHTML += "<br><em>" + gameMessage + "</em>"
+
+  //Display the player's backpack contents
+  if(backpack.length !== 0){
+    output.innerHTML += "<br>You're carrying: " + backpack.join(", ");
+  }
 }
 </script>
