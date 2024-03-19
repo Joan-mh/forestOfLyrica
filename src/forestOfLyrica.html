@@ -158,6 +158,95 @@ function playGame(){
   render();
 }
 
+function takeItem(){
+
+ var itemIndex = items.indexOf(item);
+    
+    // Check if the item exists in the current location and is also in the list of items the game understands
+    if (itemsLocation[itemIndex] === mapLocation && itemIndex !== -1) {
+        // Add the item to the backpack
+        backpack.push(item);
+        
+        // Remove the item from the current location
+        items.splice(itemIndex, 1);
+        itemsLocation.splice(itemIndex, 1);
+        
+        // Update the game message
+        gameMessage = "You picked up the " + item + ".";
+    } else {
+        // If the item is not found in the current location or is not recognized by the game
+        gameMessage = "You can't take that item.";
+    }
+
+}
+
+function dropItem(){
+    // Check if the backpack is empty
+    if (backpack.length === 0) {
+        gameMessage = "You're not carrying anything to drop.";
+        return;
+    }
+    
+    var itemIndex = backpack.indexOf(item);
+    
+    // Check if the item exists in the backpack
+    if (itemIndex !== -1) {
+        // Remove the item from the backpack
+        backpack.splice(itemIndex, 1);
+        
+        // Add the item back to the current location
+        items.push(item);
+        itemsLocation.push(mapLocation);
+        
+        // Update the game message
+        gameMessage = "You dropped the " + item + ".";
+    } else {
+        // If the item is not found in the backpack
+        gameMessage = "You're not carrying that item.";
+    }
+}
+
+function useItem(){
+  //find out if the item is in the backpack
+  var backPackIndexNumber = backpack.indexOf(item);
+
+  if (backpack.length === 0) {
+    gameMessage = "You're not carrying anything to use.";
+    return;
+  }
+  if (backPackIndexNumber === -1){
+    gameMessage = "You're not carrying that item.";
+    return;
+  }
+  switch(item)
+  {
+    case "flute":
+      gameMessage = "Beautiful music fills the air.";
+      break;
+    case "sword":
+      if (mapLocation ===3)
+      {
+        gameMessage = "You swing the sword and slay the dragon.";
+      }
+      else
+      {
+        gameMessage = "You swing the sword listlessly.";
+      }
+      break;
+    case "stone":
+    if (mapLocation === 1)
+      {
+        gameMessage = "You drop the stone in the well.";
+      }
+      else
+      {
+        gameMessage = "You fumble with the stone in your pocket.";
+      }
+      break;
+
+  }
+}
+
 function render(){
   //Render the location
   output.innerHTML = map[mapLocation];
