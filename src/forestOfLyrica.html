@@ -48,8 +48,8 @@ blockedPathMessages[7] = "The trees are too thick to pass.";
 blockedPathMessages[8] = "You're too scared to go that way.";
 
 //Create the items and set their location
-var items = ["flute", "stone", "sword"];
-var itemsLocation = [1 ,6, 8];
+var items = ["stone"];
+var itemsLocation = [6];
 //An array to store what the player ir carrying
 var backpack = [];
 
@@ -72,12 +72,19 @@ var image = document.querySelector("img");
 var button = document.querySelector("button");
 button.style.cursor = "pointer";
 button.addEventListener("click", clickHandler, false);
+window.addEventListener("keydown", enter, false);
 
 //Display the player's location
 render();
 
 function clickHandler(){
   playGame();
+}
+function enter(){
+  if(event.keyCode === 13) {
+    playGame();
+    input.value = "";
+  }
 }
 
 function playGame(){
@@ -221,12 +228,26 @@ function useItem(){
   switch(item)
   {
     case "flute":
+    if (mapLocation === 8){
       gameMessage = "Beautiful music fills the air.";
-      break;
+      gameMessage+= " A wizend old man steps outside ";
+      gameMessage+= "and hands you a sword!";
+
+      //Add the sword to the world
+      items.push("sword");
+      itemsLocation.push(mapLocation);
+    }else{
+      gameMessage = "You try and play the flute";
+      gameMessage+= " but it makes no sound here.";
+    }
+    break;
     case "sword":
       if (mapLocation ===3)
       {
         gameMessage = "You swing the sword and slay the dragon.";
+        gameMessage += "You've saved the forest of Lyrica!."
+        //end game
+        //TODO
       }
       else
       {
@@ -237,6 +258,14 @@ function useItem(){
     if (mapLocation === 1)
       {
         gameMessage = "You drop the stone in the well.";
+        gameMessage+= " A magical flute appears";
+        //remove the stone from the backpack
+        backpack.splice(backPackIndexNumber, 1)
+        //Add the flute to the world
+        items.push("flute");
+        itemsLocation.push(mapLocation);
+        //remove the stone from the game
+        //TODO
       }
       else
       {
