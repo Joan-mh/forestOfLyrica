@@ -96,6 +96,13 @@ function playGame() {
   gameMessage = "";
   action = "";
 
+  for (i=0; i<itemsIKnow.length; i++) {
+    if (playersInput.indexOf(itemsIKnow[i]) !== -1) {
+      item = itemsIKnow[i];
+      console.log("player's item:" + item);
+    }
+  }
+
   //Figure out the players action
   for (var i = 0; i < actionsIKnow.length; i++) {
     if (playersInput.indexOf(actionsIKnow[i]) !== -1) {
@@ -147,7 +154,7 @@ function takeItem() {
   var itemIndexNumber = items.indexOf(item);
 
   if (itemIndexNumber !== -1
-    && itemLocations[itemIndexNumber] === mapLocation
+    && itemsLocations[itemIndexNumber] === mapLocation
   ) {
     gameMessage = "You take the " + item + ".";
     backpack.push(item);
