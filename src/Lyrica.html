@@ -23,6 +23,29 @@ map[6] = "The edge of a river.";
 map[7] = "A lonely wooden bench.";
 map[8] = "An isolated cottage. Faint music comes from inside.";
 
+var images = [];
+images[0] = "keep.png";
+images[1] = "well.png";
+images[2] = "glade.png";
+images[3] = "dragon.png";
+images[4] = "path.png";
+images[5] = "gate.png";
+images[6] = "river.png";
+images[7] = "bench.png";
+images[8] = "cottage.png";
+
+var blockedPathMessages = [];
+blockedPathMessages[0] = "It's too dangerous to move that way.";
+blockedPathMessages[1] = "A mysterious force holds you back.";
+blockedPathMessages[2] = "A tangle of thorns blocks your way.";
+blockedPathMessages[3] = "You can't step over the dragon.";
+blockedPathMessages[4] = "";
+blockedPathMessages[5] = "The gate locks shut.";
+blockedPathMessages[6] = "The river is too deep to cross.";
+blockedPathMessages[7] = "The trees are too thick to pass.";
+blockedPathMessages[8] = "You're too scared to go that way.";
+
+
 //Set the players start location
 var mapLocation = 4;
 
@@ -34,7 +57,7 @@ var gameMessage = "";
 
 //Create an array of actions the game understands
 //and a variable to store the current action
-var actionsIKnow = ["north", "east", "south", "west"];
+var actionsIKnow = ["north", "east", "south", "west", "take", "use", "drop"];
 var action = "";
 
 //The input and output fields
@@ -45,6 +68,18 @@ var input = document.querySelector("#input");
 var button = document.querySelector("button");
 button.style.cursor = "pointer";
 button.addEventListener("click", clickHandler, false);
+
+// The image
+var image = document.querySelector("img");
+
+// Items
+var items = ["flute", "stone", "sword"];
+var itemsLocations = [1,6,8];
+
+var itemsIKnow = ["flute", "stone", "sword"];
+var item = "";
+
+var backpack = [];
 
 //Display the player's location
 render();
@@ -71,16 +106,35 @@ function playGame() {
   }
   switch(action){
     case "north":
-      mapLocation -= 3;
+      if (mapLocation >=3) {
+        mapLocation -= 3;
+      } else {
+        gameMessage = blockedPathMessages[mapLocation];
+      }
       break;
     case "east":
-      mapLocation += 1;
+      if (mapLocation % 3 != 2) {
+        mapLocation += 1;
+      } else {
+        gameMessage = blockedPathMessages[mapLocation];
+      }
       break;
     case "south":
-      mapLocation += 3;
+      if (mapLocation <6) {
+        mapLocation += 3;
+      } else {
+        gameMessage = blockedPathMessages[mapLocation];
+      }
       break;
     case "west":
-      mapLocation -= 1;
+      if (mapLocation % 3 != 0) {
+        mapLocation -= 1;
+      } else {
+        gameMessage = blockedPathMessages[mapLocation];
+      }
+      break;
+    case "take":
+      takeItem();
       break;
     default:
       gameMessage = "I don't understand that.";
@@ -89,11 +143,44 @@ function playGame() {
   render();
 }
 
+function takeItem() {
+  var itemIndexNumber = items.indexOf(item);
+
+  if (itemIndexNumber !== -1
+    && itemLocations[itemIndexNumber] === mapLocation
+  ) {
+    gameMessage = "You take the " + item + ".";
+    backpack.push(item);
+    
+    items.splice(itemIndexNumber, 1);
+    itemsLocations.splice(itemIndexNumber, 1);
+  } else {
+    gameMessage = "Yo can't do that.";
+  }
+}
+
 function render() {
   //Render the location
-  output.innerHTML = map[mapLocation];
+  output.innerHTML =  map[mapLocation];
 
+  image.src = "../images/" + images[mapLocation];
+
+  // Display 
+  for (var i=0; i<items.length; i++) {
+    if (mapLocation == itemsLocations[i]) {
+            output.innerHTML += "<br>You see a <strong>" 
+              + items[i] 
+              + "</strong> here.";
+    }    
+  }
   //Display the game message
   output.innerHTML += "<br><em>" + gameMessage + "</em>";
+
+  if (backpack.length !== 0) {
+    output.innerHTML += "<br>You are carrying: " + backpack.join(", ");
+  }
+
+  // Clear input 
+  input.value = "";
 }
 </script>
