@@ -11,7 +11,17 @@
 </div>
 
 <script>
-var map = [];
+/*TODO
+* Listen the enter key
+* Acaba el joc (tanquem el boto i el text)
+* Acaba la història
+* ***A l'inici només està la pedra
+* ***La pedra al pou fa apareixer la flauta
+* ***La flauta si la toques on els musics, surt un music i et regala l'espasa
+* ***Ara ja pots liquidar el drag
+* */
+
+  var map = [];
 
 map[0] = "An old stone keep.";
 map[1] = "A deep well.";
@@ -143,13 +153,53 @@ function playGame() {
     case "take":
       takeItem();
       break;
+    case "drop":
+      dropItem();
+      break;
+    case "use":
+        useItem();
+        break;
     default:
       gameMessage = "I don't understand that.";
   }
   //Render the game
   render();
 }
+function useItem() {
+  //Find the item's array index number in the backpack
+  var backpackIndexNumber = backpack.indexOf(item);
+  //If the index number = -1 then it isn't in the backpack
+  //Tell the player that he isn't carrying anything
+  if (backpackIndexNumber === -1) {
+    gameMessage = "You're not carrying it.";
+  }
+  //If there are no items in the backpack, then
+  //tell the player the backpack is empty
+  if (backpack.lenght === 0){
+    gameMessage = "Your backpack is empty";
+  }
+  if(backpackIndexNumber !== -1){
+    switch(item) {
+      case "flute":
+        gameMessage = "Beautiful music fills the air";
+        break;
+      case "sword":
+        if(mapLocation === 3){
+          gameMessage = "You swing the sword and slay the dragon!";
+        }else
+          gameMessage = "You swing the sword listlessly";
+        break;
+      case "stone":
+        if(mapLocation === 1){
+          gameMessage = "You drop the stone in the well!";
+          backpack.splice(backpackIndexNumber, 1);
+        }else
+          gameMessage = "You fumble with the stone in your pocket";
+        break;
+    }
+  }
 
+}
 function takeItem() {
   var itemIndexNumber = items.indexOf(item);
 
@@ -165,11 +215,36 @@ function takeItem() {
     gameMessage = "Yo can't do that.";
   }
 }
+function dropItem(){
+  //Try to drop the item only if the backpack is empty
+  //Si (backpack no té 0 items) llavors
+  if (backpack.length !== 0) {
+    //Find the item's array index number in the backpack
+    var backpackIndexNumber = backpack.indexOf(item);
+  //The item is in the backpack if backpackIndexnumber isn't 0
+  //si (backpackindexnumber !== -1)
+    if(backpackIndexNumber !== -1) {
+      //Tell the player that the item has been dropped (gameMessage)
+      gameMessage = "you drop the " + item + ".";
+      //Add the item from the backpack to the game world
+      items.push(backpack[backpackIndexNumber]);
+      itemsLocations.push(mapLocation);
+      //Remove the item from the player's backpack
+      backpack.splice(backpackIndexNumber, 1);
+    }else{
+    //Message if the player try to drop something that's not in the backpack
+      gameMessage = "You can't do that";
+    }
+  }else
+  {
+  //Message if the backpack is empty
+    gameMessage = "Your backpack is empty";
+  }
+}
 
 function render() {
   //Render the location
   output.innerHTML =  map[mapLocation];
-
   image.src = "../images/" + images[mapLocation];
 
   // Display 
@@ -186,7 +261,6 @@ function render() {
   if (backpack.length !== 0) {
     output.innerHTML += "<br>You are carrying: " + backpack.join(", ");
   }
-
   // Clear input 
   input.value = "";
 }
