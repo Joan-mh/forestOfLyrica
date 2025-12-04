@@ -44,6 +44,15 @@ blockedPathMessages[6] = "The river is too deep to cross.";
 blockedPathMessages[7] = "The trees are too thick to pass.";
 blockedPathMessages[8] = "You're too scared to go to that way.";
 
+//items
+var items = ["flute", "stone", "sword"];
+var itemLocations = [1 ,6 ,8];
+var itemsIknow = ["flute", "stone", "sword"];
+var item = "";
+
+//The items the player are carrying
+var backpack = [];
+
 //GPS Jugador
 var mapLocation = 4;
 
@@ -54,7 +63,7 @@ var playersInput = "";
 var gameMessage = "";
 
 //Actions the game understands
-var actionsIKnow = ["north", "east", "south", "west"];
+var actionsIKnow = ["north", "east", "south", "west", "take", "use", "drop"];
 var action ="";
 
 //The interface fields
@@ -93,7 +102,15 @@ function playGame()
     if(playersInput.indexOf(actionsIKnow[i]) !== -1)
     {
         action = actionsIKnow[i];
-        console.log("Player's action: " + action);
+        break;
+    }
+  }
+
+  for(i=0; i <itemsIknow.length; i++)
+  {
+    if(playersInput.indexOf(itemsIknow[i]) !== -1)
+    {
+        item = itemsIKnow[i];
         break;
     }
   }
@@ -141,7 +158,19 @@ function playGame()
         gameMessage = blockedPathMessages[mapLocation];
       }
       break;
+
+    case "take":
+      takeItem();
+      break;
+
+    case "drop":
+      dropItem();
+      break;
     
+    case "use":
+      useItem();
+      break;
+
     default:
       gameMessage = "I don't undertand that";
   }
@@ -150,13 +179,34 @@ function playGame()
   render();
 }
 
+function takeItem(){
+
+}
+
+function dropItem(){
+
+}
+
+function useItem(){
+
+}
+
 function render()
 {
   output.innerHTML = map[mapLocation];
+  image.src = "../images/" + images[mapLocation];
+
+  for (var i=0; i < itemLocations.length; i++)
+  {
+    if (mapLocation === itemLocations[i])
+    {
+      output.innerHTML += "<br>You see a <strong>" + items[i] + "</strong> here.";
+    }
+  }
 
   output.innerHTML += "<br><em>" + gameMessage + "</em>";
 
-  image.src = "../images/" + images[mapLocation];
+  
 
 
 }
