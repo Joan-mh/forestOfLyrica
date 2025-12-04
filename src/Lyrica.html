@@ -1,6 +1,6 @@
 <!doctype html>
 <title>The Forest of Lyrica</title>
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="Lyrica.css">
 
 <div id="stage">
   <h1>The Forest of Lyrica</h1>
@@ -45,8 +45,8 @@ blockedPathMessages[7] = "The trees are too thick to pass.";
 blockedPathMessages[8] = "You're too scared to go to that way.";
 
 //items
-var items = ["flute", "stone", "sword"];
-var itemLocations = [1 ,6 ,8];
+var items = ["stone"];
+var itemLocations = [6];
 var itemsIknow = ["flute", "stone", "sword"];
 var item = "";
 
@@ -236,27 +236,50 @@ function useItem(){
     {
       case "flute":
       if (mapLocation === 8)
-    {
+      {
       gameMessage = "Beautiful music fills the air.";
       gameMessage += "A wizend old man steps outside "
       gameMessage += "and hands you a sword";
+
+      //TODO : Add the sword to the world
       
-    }
-    else{
-      gameMessage = "You try and play the flute";
-      gameMessage += "but it make no sound here."
-    }
+      }
+      else{
+        gameMessage = "You try and play the flute";
+        gameMessage += "but it make no sound here."
+      }
       break;
 
       case "stone":
+        if(mapLocation === 1)
+        {
+          gameMessage = "You drop the stone in the well.";
+          gameMessage += "A magical flute appears!";
+          
+          //Remove the stone from the player's backpack
+          backpack.splice(backpackIndexNumber, 1);
 
+          //TODO: Add the flute to the world
+        }
+        else
+        {
+           gameMessage = "You fumble with the stone in your pocket.";
+        }
       break;
 
       case "sword":
+        if(mapLocation === 3)
+        {
+          gameMessage = "You swing the sword and slay the dragon! ";
+          gameMessage += "You saved the forest of Lyrica!";
 
+          //TODO Block player's controls
+        }
+        else
+        {
+           gameMessage = "You swing the sword listlessly.";
+        }
       break;
-
-      
     }
   }
 }

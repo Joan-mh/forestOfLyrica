@@ -1,155 +1,106 @@
-*{
-    padding: 0;
-    margin: 0;
-}
-body{
-    background-color:blanchedalmond;
-}
-
-.gameZone{
-    width: 100%;
-    display: flex;
-    justify-content: space-evenly;
-    height: 100vh;
-    align-items: center;
+*
+{
+  font-family: Merriweather;
+  color: #000;  
+  font-size: 16px;
+  padding: 0px;
+  margin: 0px;
 }
 
-.locationWrap{
-    position: relative;
-    height: 750px;
+@font-face 
+{
+  font-family: Merriweather;
+  src: url("../fonts/Merriweather.ttf");
 }
 
-.location{
-    width: 500px;
-    height: 450px;
-    top: 0;
-
-    
+@font-face 
+{
+  font-family: Merriweather-Bold;
+  src: url("../fonts/Merriweather-Bold.ttf");
 }
 
-.location img{
-    border: 1px solid black;
-    border-top: 0;
-    border-bottom: 0;
-    box-sizing: border-box;
+@font-face 
+{
+  font-family: Ginga;
+  src: url("../fonts/Ginga.ttf");
 }
 
-#titleOutput{
-    text-align: center;
-    border: 1px solid black;
-    border-bottom: none;
-    background-color: rgb(241, 192, 101);
-    color: rgb(165, 67, 42);
-    border-radius: 10px 10px 0 0;
+h1
+{
+  text-align: center;
+  font-family: Ginga;
+  font-size: 80px;
+  padding-bottom: 10px;
+  padding-top: 80px;
+  font-weight: normal;
+}
+em
+{
+  font-size: 14px;
+}
+p
+{
+  width: 300px;
+  margin: 0px auto;
 }
 
-h1{
-    font-size: 2.2em;
+img
+{
+  margin: 0px auto;
+  display: block;
+  margin-bottom: 20px;
 }
 
-#outputZone{
-    width: 100%;
-    height: 250px;
-    border: 1px solid black;
-    box-sizing: border-box;
-    background-color: antiquewhite;
+input
+{
+  position: absolute;
+  bottom: 30px;
+  left: 135px;
+  width: 160px;
+  padding: 2px 2px 2px 5px;
+  border: 1px solid black;
+  background-color: rgba(255,255,255,0.3);
+  -webkit-box-shadow: 5px 5px 3px rgba(0,0,0,0.5);
+	-moz-box-shadow: 5px 5px 3px rgba(0,0,0,0.5);
+	box-shadow: 3px 3px 5px rgba(0,0,0,0.4);
 }
 
-#outputDisplay{
-    width: 100%;
-    height: 175px;
-    padding: 5px;
-    box-sizing: border-box;
-    overflow: scroll;
-    overflow-x: hidden;
-    font-size: 1.2em;
-    text-align: justify;
-    background-color: white;
-    
-}
-
-#backpackDisplay{
-    width: 100%;
-    height: 50px;
-    background-color: rgb(241, 192, 101);
-    box-sizing: border-box;
-    border: 1px solid black;
-    border-top: none;
-    border-radius: 0 0 10px 10px;
-}
-
-.map{
-    width: 750px;
-    height: 750px;
-    box-sizing: border-box;
-    height: auto;
-    display: none;
-}
-
-.map div:first-child img{
-
-    border-radius: 10px 0 0 0;
-
-}
-
-.map div:nth-child(5) img{
-
-    border-radius: 0 10px 0 0;
-
-}
-
-.map div:nth-child(21) img{
-
-    border-radius: 0 0 0 10px;
-
-}
-
-.map div:last-child img{
-
-    border-radius: 0 0 10px 0;
-
+button
+{
+  position: absolute;
+  bottom: 30px;
+  left: 310px;
+  height: 25px;
+  width: 50px;
+  
+  font-family: Merriweather;
+	font-size: 14px;
+	color: #000;
+	border: 1px solid #000;
+	
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;	
+	
+	background:-webkit-linear-gradient(top, rgba(255,255,255,0.6), rgba(0,0,0,0.2));
+	background:-moz-linear-gradient(top, #a3a3a3, rgba(0,0,0,0.2));
+	background: linear-gradient(top, #a3a3a3, rgba(0,0,0,0.2));
+	
+	-webkit-box-shadow: 5px 5px 3px rgba(0,0,0,0.5);
+	-moz-box-shadow: 5px 5px 3px rgba(0,0,0,0.5);
+	box-shadow: 3px 3px 5px rgba(0,0,0,0.4);
+	
+	-webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
 }
 
 
-
-.buttonsSet{
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-}
-
-button{
-    display: block;
-    float: left;
-    width: 25%;
-    height: 30px;
-    cursor: pointer;
-    background-color:rgb(241, 192, 101) ;
-    font-weight: bolder;
-    color: rgb(165, 67, 42);
-}
-p{
-    display: block;
-    border: 1px solid black;
-    width: 100%;
-    height: 100px;
-    padding: 5px;
-    box-sizing: border-box;
-}
-
-#input{
-    width: 100%;
-    height: 20px;
-    box-sizing: border-box;
-    display: none;
-}
-
-#backpackDisplay div img{
-    border: none;
-}
-
-#backpackDisplay div img:hover{
-
-    transform: scale(2.5);
-
+#stage
+{
+  width: 500px;
+  height: 648px;
+  background-color: gray;
+  position: relative;
+  background-image: url("../images/paper.png");
 }
